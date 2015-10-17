@@ -1,8 +1,7 @@
-from django.shortcuts import render, redirect, render_to_response
+from django.shortcuts import render, redirect
 from .models import *
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import Http404
-from django.views.decorators.cache import cache_page
 from .forms import MessageForm
 
 
@@ -15,7 +14,6 @@ def base(request):
 
 
 # 获取文章列表
-@cache_page(60 * 15)  # 页面缓存
 def article_view(request):
     article_list = Article.objects.all()
     article_list = get_page(request, article_list)
@@ -38,8 +36,7 @@ def get_category(request, category):
     is_cat = True
     try:
         category = Category.objects.get(name=category)
-        article_list = Article.objects.filter(category_id=category.id)
-        article_list = get_page(request, article_list)
+        article_list = get_page(request, category.article_set.all())
     except Category.DoesNotExist:
         raise Http404
     return render(request, 'index.html', locals())
@@ -49,27 +46,9 @@ def me(request):
     return render(request, 'me.html')
 
 
-# 分页函数
-def get_page(request, article_list, num=4):
-    paginator = Paginator(article_list, num)
-    try:
-        page = request.GET.get('page')
-        article_list = paginator.page(page)
-    except EmptyPage:
-        article_list = paginator.page(paginator.num_pages)
-    except PageNotAnInteger:
-        article_list = paginator.page(1)
-    return article_list
-
-
 # 文章归档
-@cache_page(60 * 15)
 def get_archive(request):
-    archive_list = []
-    cat_list = Category.objects.all()
-    for c, x in enumerate(cat_list):
-        archive_list.insert(c, [x.name, x.article_set.all()])
-    return render(request, 'archive.html', locals())
+    return render(request, 'archive.html')
 
 
 # 标签云
@@ -83,7 +62,7 @@ def get_tag(request, tag):
             tag = Tag.objects.get(name=tag)
         article_list = get_page(request, tag.article_set.all())
     except Tag.DoesNotExist:
-        raise Http404('Tag does not exist!')
+        raise Http404
     return render(request, 'index.html', locals())
 
 
@@ -108,3 +87,15 @@ def message(request):
         form = MessageForm()
     return render(request, 'message.html', {'article_list': message_list, 'form': form})
 
+
+# 分页函数
+def get_page(request, article_list, num=4):
+    paginator = Paginator(article_list, num)
+    try:
+        page = request.GET.get('page')
+        article_list = paginator.page(page)
+    except EmptyPage:
+        article_list = paginator.page(paginator.num_pages)
+    except PageNotAnInteger:
+        article_list = paginator.page(1)
+    return article_list

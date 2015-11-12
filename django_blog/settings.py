@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'django_blog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blog',
+        'NAME': 'myblog',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -116,8 +116,6 @@ STATICFILES_DIRS = (
 )
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
-
-AUTH_USER_MODEL = 'myblog.User'
 
 CKEDITOR_UPLOAD_PATH = "ckeditor/"
 CKEDITOR_RESTRICT_BY_USER = True

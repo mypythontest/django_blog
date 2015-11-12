@@ -1,7 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import Http404
 from .forms import MessageForm
 
 
@@ -17,29 +16,23 @@ def base(request):
 def article_view(request):
     article_list = Article.objects.all()
     article_list = get_page(request, article_list)
-    return render(request, 'index.html', locals())
+    return render(request, 'index.html', {'article_list': article_list})
 
 
 # 文章详细
 def content_detail(request, title):
-    try:
-        content = Article.objects.get(title=title)
-        content.click_count += 1
-        content.save()
-    except Article.DoesNotExist:
-        raise Http404
-    return render(request, 'content.html', locals())
+    content = get_object_or_404(Article, title=title)
+    content.click_count += 1
+    content.save()
+    return render(request, 'content.html', {'content': content})
 
 
 # 文章分类
 def get_category(request, category):
     is_cat = True
-    try:
-        category = Category.objects.get(name=category)
-        article_list = get_page(request, category.article_set.all())
-    except Category.DoesNotExist:
-        raise Http404
-    return render(request, 'index.html', locals())
+    category = get_object_or_404(Category, name=category)
+    article_list = get_page(request, category.article_set.all())
+    return render(request, 'index.html', {'article_list': article_list, 'is_cat': is_cat})
 
 
 def me(request):
@@ -54,15 +47,8 @@ def get_archive(request):
 # 标签云
 def get_tag(request, tag):
     is_tag = True
-    try:
-        try:
-            int(tag)
-            tag = Tag.objects.get(id=tag)
-        except ValueError:
-            tag = Tag.objects.get(name=tag)
-        article_list = get_page(request, tag.article_set.all())
-    except Tag.DoesNotExist:
-        raise Http404
+    tag = get_object_or_404(Tag, id=tag)
+    article_list = get_page(request, tag.article_set.all())
     return render(request, 'index.html', locals())
 
 

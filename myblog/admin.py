@@ -4,7 +4,7 @@ from .models import *
 
 
 class Articlelist(admin.ModelAdmin):
-    list_display = ('title', 'desc', 'user', 'date_publish',)
+    list_display = ('title', 'desc', 'date_publish',)
     filter_horizontal = ('tag',)
     search_fields = ('title',)
 

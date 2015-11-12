@@ -4,17 +4,6 @@ from ckeditor_uploader.fields import RichTextUploadingField
 # Create your models here.
 
 
-# 用户
-class User(AbstractUser):
-    class Meta:
-        verbose_name = '用户'
-        verbose_name_plural = verbose_name
-        ordering = ['-id']
-
-    def __str__(self):
-        return self.username
-
-
 # 标签
 class Tag(models.Model):
     name = models.CharField(max_length=30, verbose_name='标签名称')
@@ -23,7 +12,7 @@ class Tag(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('tag', (), {
-            'tag': self.name
+            'tag': self.id
         }
         )
 
@@ -65,7 +54,6 @@ class Article(models.Model):
     click_count = models.IntegerField(default=0, verbose_name='点击次数')
     is_recommend = models.BooleanField(default=False, verbose_name='是否推荐')
     date_publish = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
-    user = models.ForeignKey(User, verbose_name='用户')
     category = models.ForeignKey(Category, blank=False, null=False, verbose_name='分类')
     tag = models.ManyToManyField(Tag, verbose_name='标签')
 

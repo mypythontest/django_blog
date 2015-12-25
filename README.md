@@ -8,4 +8,4 @@ django个人博客。
     后台文章编辑引入富文本编辑器ckeditor。
 
 
-Flask移植版：<a>https://github.com/CREATE-CHENG/flask_blog</a>
+Flask版：<a>https://github.com/CREATE-CHENG/flask_blog</a>

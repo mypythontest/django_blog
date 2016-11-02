@@ -17,7 +17,6 @@
     <script src="//cdn.bootcss.com/jquery/3.0.0-alpha1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/jquery/3.0.0-alpha1/jquery.js"></script>
     <script src="{% static 'js/scrollup/jquery.scrollUp.js' %}"></script>
-    <script src="{% static 'js/jQCloud-master/jqcloud/jqcloud-1.0.4.js' %}"></script>
     <script src="{% static 'js/base.js' %}"></script>
     <title>{% block title %}{% endblock %}</title>
 </head>
@@ -32,7 +31,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-                    <a class="navbar-brand" href="{% url 'index' %}">复见天心</a>
+                    <a class="navbar-brand" href="{% url 'index' %}">{{ site_name }}</a>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
@@ -54,8 +53,8 @@
             <div class="row">
                 <div class="container">
                     <br>
-                    <h1 >复见天心</h1>
-                    <h3>乘天地之正，御六气之变，以游无穷。</h3>
+                    <h1 >{{ site_name }}</h1>
+                    <h3>{{ slogan }}</h3>
                 </div>
             </div>
         </div>
@@ -68,7 +67,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{% url 'index' %}">复见天心</a>
+                    <a class="navbar-brand" href="{% url 'index' %}">{{ site_name }}</a>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                     <ul class="nav navbar-nav">

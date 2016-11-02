@@ -15,14 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django_blog import settings
 from myblog.views import *
-
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^/admin/ckeditor/', include('ckeditor_uploader.urls')),
-    url(r"^uploads/(?P<path>.*)$", "django.views.static.serve", {"document_root": settings.MEDIA_ROOT, }),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^$', article_view, name='index'),
     url(r'^article/(?P<title>.*)$', content_detail, name='article_content'),
     url(r'^category/(?P<category>\S+)$', get_category, name='category'),
@@ -31,4 +30,5 @@ urlpatterns = [
     url(r'^archive/$', get_archive, name='archive'),
     url(r'^message/$', message, name='message'),
     url(r'^me/$', me, name='me'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

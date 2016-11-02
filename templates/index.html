@@ -2,13 +2,13 @@
 
 {% block title %}
     {% if is_cat %}
-    {{ category }}|复见天心
+    {{ category }}|{{ site_name }}
     {% elif is_tag %}
-        {{ tag }}|复见天心
+        {{ tag }}|{{ site_name }}
     {% elif is_search %}
-        {{ title }}|复见天心
+        {{ title }}|{{ site_name }}
     {% else %}
-        复见天心
+        {{ site_name }}
     {% endif %}
 {% endblock %}
 

@@ -1,7 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from ckeditor_uploader.fields import RichTextUploadingField
-# Create your models here.
 
 
 # 标签
@@ -72,20 +70,6 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
-
-# 留言
-class Message(models.Model):
-    username = models.CharField(max_length=30, blank=True, null=True, verbose_name='用户名')
-    content = models.TextField(verbose_name='留言内容', max_length=150)
-    date_publish = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
-
-    class Meta:
-        verbose_name = '留言'
-        verbose_name_plural = verbose_name
-        ordering = ['-date_publish']
-
-    def __str__(self):
-        return str(self.id)
 
 
 

@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from .models import *
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from .forms import MessageForm
+from django_blog.settings import SLOGAN, SITE_NAME
 
 
 # 全局传递的数据
@@ -9,6 +9,8 @@ def base(request):
     cat = Category.objects.all()
     tag_list = Tag.objects.all()
     recommendation = Article.objects.filter(is_recommend=True)[:7]
+    site_name = SITE_NAME
+    slogan = SLOGAN
     return locals()
 
 
@@ -44,7 +46,7 @@ def get_archive(request):
     return render(request, 'archive.html')
 
 
-# 标签云
+# 标签
 def get_tag(request, tag):
     is_tag = True
     tag = get_object_or_404(Tag, id=tag)
@@ -62,16 +64,7 @@ def search(request):
 
 # 留言
 def message(request):
-    message_list = get_page(request, Message.objects.all(), num=9)
-    if request.method == 'POST':
-        form = MessageForm(request.POST)
-        if form.is_valid():
-            Message.objects.create(username=form.cleaned_data['username'],
-                                   content=form.cleaned_data['content'])
-            return redirect(message)
-    else:
-        form = MessageForm()
-    return render(request, 'message.html', {'article_list': message_list, 'form': form})
+    return render(request, 'message.html')
 
 
 # 分页函数

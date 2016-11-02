@@ -9,6 +9,5 @@ class Articlelist(admin.ModelAdmin):
     search_fields = ('title',)
 
 admin.site.register(Article, Articlelist)
-admin.site.register(Message)
 admin.site.register(Tag)
 admin.site.register(Category)

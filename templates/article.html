@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}|{{ site_name }}
+{% endblock %}
+
+{% block article %}
+    <div class="panel">
+        <div class="panel-heading navbar-default"><strong>{{ article.title }}</strong></div>
+        <div class="alert alert-block">
+            <span class="label label-success"><span class="glyphicon glyphicon-tags"><b>标签:</b></span></span>
+            {% for tag in article.tag.all %}
+                <a class="label label-success" href="{{ tag.get_absolute_url }}"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span>{{ tag }}</a>
+            {% endfor %}
+            <span class="label label-info"><span class="glyphicon glyphicon-time"><b>时间:</b></span></span>
+            <span class="label label-info">{{ article.date_publish | date:"SHORT_DATE_FORMAT" }}</span>
+            <span class="ds-thread-count label label-warning" data-thread-key="{{ article.id }}" data-count-type="comments"></span>
+        </div>
+        <div class="panel-body">
+            {% autoescape off %}
+                {{ article.article }}
+            {% endautoescape %}
+        </div>
+        <div class="panel-body">
+            <div class="ds-thread" data-thread-key="{{ article.id }}" data-title="{{ article.title }}" data-url="your_site/article/{{ article.title }}">
+            </div>
+        </div>
+    </div>
+{% endblock %}

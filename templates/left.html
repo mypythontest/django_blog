@@ -50,7 +50,7 @@
         </div>
         <div class="panel-body">
         <ul>
-            {% for x in cat %}
+            {% for x in categories %}
                 <li><a href="{{ x.get_absolute_url }}">{{ x.name }}</a></li>
             {% endfor %}
         </ul>
@@ -72,6 +72,9 @@
         </div>
         <div class="panel-body">
             <ul>
+                {% for tag in tag_list %}
+                    <li><a href="{{ tag.get_absolute_url}}">{{ tag.name }}({{ tag.articles_count }})</a></li>
+                {% endfor %}
             </ul>
         </div>
     </div>

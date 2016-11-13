@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    文章归档|复见天心
+    文章归档|{{ site_name }}
 {% endblock %}
 
 {% block content %}
-    {% for a in cat %}
+    {% for a in categories %}
         <div class="panel">
             <div class="panel-heading navbar-default"><strong>{{ a.name }}</strong></div>
             <div class="panel-body">

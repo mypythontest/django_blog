@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    {% if is_cat %}
+    {% if is_category %}
     {{ category }}|{{ site_name }}
     {% elif is_tag %}
         {{ tag }}|{{ site_name }}
@@ -30,7 +30,7 @@
                     <span class="ds-thread-count label label-warning" data-thread-key="{{ content.id }}" data-count-type="comments"></span>
                 </div>
                 {% autoescape off %}
-                <div class="panel-body">{{ content.content | truncatewords_html:100 }}<a href="{% url 'article_content' content.title %}">阅读全文</a>
+                <div class="panel-body">{{ content.content | truncatewords_html:100 }}<a href="{% url 'article_detail' content.title %}">阅读全文</a>
                 </div>
                 {% endautoescape %}
             </div>

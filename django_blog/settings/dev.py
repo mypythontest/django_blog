@@ -12,4 +12,3 @@ DATABASES = {
         'PASSWORD': 'test',
     }
 }
-

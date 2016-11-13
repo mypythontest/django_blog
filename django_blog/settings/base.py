@@ -130,7 +130,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, '../staticfiles'),
 )
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'medias')
+MEDIA_ROOT = os.path.join(BASE_DIR, '../medias')
 
 CKEDITOR_UPLOAD_PATH = "ckeditor/"
 

@@ -1,4 +1,4 @@
-var duoshuoQuery = {short_name:"yourname"};
+var duoshuoQuery = {short_name:"createcheng"};
 	(function() {
 		var ds = document.createElement('script');
 		ds.type = 'text/javascript';ds.async = true;

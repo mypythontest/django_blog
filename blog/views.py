@@ -7,9 +7,12 @@ from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
 
 
-class ArticleView(ListView):
-    template_name = 'index.html'
+class BaseListView(ListView):
     context_object_name = 'article_list'
+
+
+class ArticleView(BaseListView):
+    template_name = 'index.html'
 
     def get_queryset(self):
         articles = Article.objects.all()
@@ -21,16 +24,17 @@ class ArticleDetailView(DetailView):
     template_name = 'article.html'
     context_object_name = 'article'
     slug_url_kwarg = 'title'
+    slug_field = 'title'
 
     def get_object(self, queryset=None):
-        article = super(ArticleDetailView, self).get_object(queryset=None)
+        article = super(ArticleDetailView, self).get_object(queryset)
         article.click_count += 1
         article.save()
+        return article
 
 
-class CategoryListView(ListView):
+class CategoryListView(BaseListView):
     template_name = 'index.html'
-    context_object_name = 'article_list'
 
     def get_queryset(self):
         articles = Article.object.filter(category=self.kwargs['category'])
@@ -49,9 +53,8 @@ class ArchiveView(TemplateView):
     template_name = 'archive.html'
 
 
-class TagListView(ListView):
+class TagListView(BaseListView):
     template_name = 'index.html'
-    context_object_name = 'article_list'
 
     def get_queryset(self):
         articles = Article.object.filter(tag=self.kwargs['tag'])
@@ -62,7 +65,6 @@ class TagListView(ListView):
         context['is_tag'] = True
 
 
-# 搜索
 def search(request):
     is_search = True
     title = request.GET.get('search')
@@ -71,7 +73,7 @@ def search(request):
 
 
 class MessageView(TemplateView):
-    template_name = 'message.tml'
+    template_name = 'message.html'
 
 
 def paginate(request, article_list, num=4):

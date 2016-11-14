@@ -6,7 +6,6 @@ from django.core.urlresolvers import reverse
 # 标签
 class Tag(models.Model):
     name = models.CharField(max_length=30, verbose_name='标签名称')
-    weight = models.IntegerField(default=10, verbose_name='标签大小')
 
     def get_absolute_url(self):
         return reverse('tag', args=[self.name])
@@ -20,12 +19,12 @@ class Tag(models.Model):
         return self.name
 
     def articles_count(self):
-        return self.article_set.count()
+        return self.articles.count()
 
 
 # 文章分类
 class Category(models.Model):
-    name = models.CharField(max_length=30, verbose_name='分类名称')
+    name = models.CharField(max_length=30, verbose_name='分类名称', unique=True)
 
     def get_absolute_url(self):
         return reverse('category', args=[self.name])
@@ -47,8 +46,8 @@ class Article(models.Model):
     click_count = models.IntegerField(default=0, verbose_name='点击次数')
     is_recommend = models.BooleanField(default=False, verbose_name='是否推荐')
     date_publish = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
-    category = models.ForeignKey(Category, blank=False, null=False, verbose_name='分类')
-    tag = models.ManyToManyField(Tag, verbose_name='标签')
+    category = models.ForeignKey(Category, blank=False, null=False, verbose_name='分类', to_field='name')
+    tag = models.ManyToManyField(Tag, verbose_name='标签', related_name='articles')
 
     def next_article(self):
         super()._get_next_or_previous_in_order(is_next=True)

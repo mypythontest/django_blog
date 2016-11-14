@@ -15,8 +15,9 @@ class ArticleView(BaseListView):
     template_name = 'index.html'
 
     def get_queryset(self):
-        articles = Article.objects.all()
-        return paginate(self.request, articles)
+        queryset = Article.objects.all()
+        articles = self.paginate_queryset(queryset, page_size=4)[1]
+        return articles
 
 
 class ArticleDetailView(DetailView):
@@ -37,12 +38,30 @@ class CategoryListView(BaseListView):
     template_name = 'index.html'
 
     def get_queryset(self):
-        articles = Article.object.filter(category=self.kwargs['category'])
-        return paginate(self.request, articles)
+        queryset = Article.objects.filter(category=self.kwargs['category'])
+        articles = self.paginate_queryset(queryset, page_size=4)[1]
+        return articles
 
     def get_context_data(self, **kwargs):
         context = super(CategoryListView, self).get_context_data(**kwargs)
         context['is_category'] = True
+        context['category'] = self.kwargs['category']
+        return context
+
+
+class TagListView(BaseListView):
+    template_name = 'index.html'
+
+    def get_queryset(self):
+        queryset = Tag.objects.get(name=self.kwargs['tag']).articles.all()
+        articles = self.paginate_queryset(queryset, page_size=4)[1]
+        return articles
+
+    def get_context_data(self, **kwargs):
+        context = super(TagListView, self).get_context_data(**kwargs)
+        context['is_tag'] = True
+        context['tag'] = self.kwargs['tag']
+        return context
 
 
 class Me(TemplateView):
@@ -53,36 +72,16 @@ class ArchiveView(TemplateView):
     template_name = 'archive.html'
 
 
-class TagListView(BaseListView):
-    template_name = 'index.html'
-
-    def get_queryset(self):
-        articles = Article.object.filter(tag=self.kwargs['tag'])
-        return paginate(self.request, articles)
-
-    def get_context_data(self, **kwargs):
-        context = super(TagListView, self).get_context_data(**kwargs)
-        context['is_tag'] = True
-
-
-def search(request):
-    is_search = True
-    title = request.GET.get('search')
-    article_list = paginate(request, Article.objects.filter(title__icontains=title))
-    return render(request, 'index.html', locals())
-
-
 class MessageView(TemplateView):
     template_name = 'message.html'
 
 
-def paginate(request, article_list, num=4):
-    paginator = Paginator(article_list, num)
-    try:
-        page = request.GET.get('page')
-        article_list = paginator.page(page)
-    except EmptyPage:
-        article_list = paginator.page(paginator.num_pages)
-    except PageNotAnInteger:
-        article_list = paginator.page(1)
-    return article_list
+class SearchView(BaseListView):
+    template_name = 'index.html'
+    
+    def get_queryset(self):
+        queryset = Article.objects.filter(title__icontains=self.request.GET.get('search'))
+        articles = self.paginate_queryset(queryset, page_size=4)[1]
+        return articles
+
+

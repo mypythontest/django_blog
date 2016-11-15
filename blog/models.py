@@ -40,7 +40,7 @@ class Category(models.Model):
 
 # 文章
 class Article(models.Model):
-    title = models.CharField(max_length=50, verbose_name='文章标题')
+    title = models.CharField(max_length=50, verbose_name='文章标题', unique=True)
     desc = models.CharField(max_length=50, verbose_name='文章描述')
     content = RichTextUploadingField(config_name='default', verbose_name='文章内容')
     click_count = models.IntegerField(default=0, verbose_name='点击次数')
@@ -49,19 +49,12 @@ class Article(models.Model):
     category = models.ForeignKey(Category, blank=False, null=False, verbose_name='分类', to_field='name')
     tag = models.ManyToManyField(Tag, verbose_name='标签', related_name='articles')
 
-    def next_article(self):
-        super()._get_next_or_previous_in_order(is_next=True)
-
-    def prev_article(self):
-        super()._get_next_or_previous_in_order(is_next=False)
-
     def get_absolute_url(self):
         return reverse('article_detail', args=[self.title])
 
     class Meta:
         verbose_name = '文章'
         verbose_name_plural = verbose_name
-        ordering = ['-date_publish']
 
     def __str__(self):
         return self.title

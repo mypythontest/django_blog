@@ -1,6 +1,4 @@
-from django.shortcuts import render, get_object_or_404
 from .models import *
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -33,6 +31,22 @@ class ArticleDetailView(DetailView):
         article.save()
         return article
 
+    def get_context_data(self, **kwargs):
+        context = super(ArticleDetailView, self).get_context_data(**kwargs)
+
+        try:
+            prev_article = Article.objects.filter(pk__lt=self.object.id).order_by('-pk')[0]
+        except IndexError:
+            prev_article = None
+        try:
+            next_article = Article.objects.filter(pk__gt=self.object.id).order_by('pk')[0]
+        except IndexError:
+            next_article = None
+
+        context['prev_article'] = prev_article
+        context['next_article'] = next_article
+        return context
+
 
 class CategoryListView(BaseListView):
     template_name = 'index.html'
@@ -64,6 +78,15 @@ class TagListView(BaseListView):
         return context
 
 
+class SearchView(BaseListView):
+    template_name = 'index.html'
+
+    def get_queryset(self):
+        queryset = Article.objects.filter(title__icontains=self.request.GET.get('search'))
+        articles = self.paginate_queryset(queryset, page_size=4)[1]
+        return articles
+
+
 class Me(TemplateView):
     template_name = 'me.html'
 
@@ -74,14 +97,3 @@ class ArchiveView(TemplateView):
 
 class MessageView(TemplateView):
     template_name = 'message.html'
-
-
-class SearchView(BaseListView):
-    template_name = 'index.html'
-    
-    def get_queryset(self):
-        queryset = Article.objects.filter(title__icontains=self.request.GET.get('search'))
-        articles = self.paginate_queryset(queryset, page_size=4)[1]
-        return articles
-
-

@@ -15,6 +15,7 @@
             <span class="label label-info"><span class="glyphicon glyphicon-time"><b>时间:</b></span></span>
             <span class="label label-info">{{ article.date_publish | date:"SHORT_DATE_FORMAT" }}</span>
             <span class="ds-thread-count label label-warning" data-thread-key="{{ article.id }}" data-count-type="comments"></span>
+
         </div>
         <div class="panel-body">
             {% autoescape off %}
@@ -22,7 +23,17 @@
             {% endautoescape %}
         </div>
         <div class="panel-body">
-            <div class="ds-thread" data-thread-key="{{ article.id }}" data-title="{{ article.title }}" data-url="your_site/article/{{ article.title }}">
+            {% if prev_article %}
+            <a class="left" href="{{ prev_article.get_absolute_url }}"><span class="glyphicon glyphicon-chevron-left"></span>{{ prev_article.title }}</a>
+            {% else %}
+            <a class="left" href="#"><span class="glyphicon glyphicon-chevron-left"></span>无上一篇文章</a>
+            {% endif %}
+            <a class="left" href="#"><span class="glyphicon glyphicon-minus"></span></a>
+            {% if next_article %}
+            <a class="left" href="{{ next_article.get_absolute_url }}">{{ next_article.title }}<span class="glyphicon glyphicon-chevron-right"></span></a>
+            {% else %}
+            <a class="left" href="#">无下一篇文章<span class="glyphicon glyphicon-chevron-right"></span></a>
+            {% endif %}
             </div>
         </div>
     </div>

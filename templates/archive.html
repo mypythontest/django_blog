@@ -15,7 +15,6 @@
             </ul>
         </div>
     <div class="tab-content">
-
         <div class="tab-pane fade in active" id="category">
             {% for a in categories %}
             <div class="panel">
@@ -36,7 +35,7 @@
             {% endfor %}
         </div>
 
-        <div class="tab-pane fade in active" id="tag">
+        <div class="tab-pane fade" id="tag">
             {% for a in tag_list %}
             <div class="panel">
                 <div class="panel-heading"><strong>{{ a.name }}</strong></div>
@@ -55,7 +54,6 @@
             </div>
             {% endfor %}
         </div>
-
     </div>
 
 {% endblock %}</div>

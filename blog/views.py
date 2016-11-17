@@ -91,8 +91,14 @@ class Me(TemplateView):
     template_name = 'me.html'
 
 
-class ArchiveView(TemplateView):
+class ArchiveView(BaseListView):
     template_name = 'archive.html'
+
+    def get_queryset(self):
+        articles = Article.objects.all()
+        for article in articles:
+            article.date_publish = article.date_publish.strftime('%Y-%m')
+        return articles
 
 
 class MessageView(TemplateView):

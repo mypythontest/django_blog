@@ -97,7 +97,7 @@ class ArchiveView(BaseListView):
     def get_queryset(self):
         articles = Article.objects.all()
         for article in articles:
-            article.date_publish = article.date_publish.strftime('%Y-%m')
+            article.yeah_month = article.date_publish.strftime('%Y-%m')
         return articles
 
 

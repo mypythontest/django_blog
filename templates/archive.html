@@ -23,10 +23,15 @@
                     {% for article in a.article_set.all %}
                     <li class="col-md-12" style="list-style-type:none">
                         <a class="left" href="{{ article.get_absolute_url }}">
-                            <span class="col-md-5"><span class="glyphicon glyphicon-book"></span>
-                                《{{ article.title }}》</span><span class="col-md-4">
-                            <span class="glyphicon glyphicon-pencil"></span>描述：{{ article.desc }}</span>
-                            <span class="col-md-3"><span class="glyphicon glyphicon-time"></span>时间：{{ article.date_publish | date:"SHORT_DATE_FORMAT" }}</span>
+                            <span class="col-md-4">
+                                <span class="glyphicon glyphicon-book"></span>《{{ article.title }}》
+                            </span>
+                            <span class="col-md-5">
+                                <span class="glyphicon glyphicon-pencil"></span>描述：{{ article.desc }}
+                            </span>
+                            <span class="col-md-3">
+                                <span class="glyphicon glyphicon-time"></span>时间：{{ article.date_publish | date:"SHORT_DATE_FORMAT" }}
+                            </span>
                         </a>
                     </li>
                     {% endfor %}
@@ -43,10 +48,15 @@
                     {% for article in a.articles.all %}
                     <li class="col-md-12" style="list-style-type:none">
                         <a class="left" href="{{ article.get_absolute_url }}">
-                            <span class="col-md-5"><span class="glyphicon glyphicon-book"></span>
-                                《{{ article.title }}》</span><span class="col-md-4">
-                            <span class="glyphicon glyphicon-pencil"></span>描述：{{ article.desc }}</span>
-                            <span class="col-md-3"><span class="glyphicon glyphicon-time"></span>时间：{{ article.date_publish | date:"SHORT_DATE_FORMAT" }}</span>
+                            <span class="col-md-4">
+                                <span class="glyphicon glyphicon-book"></span>《{{ article.title }}》
+                            </span>
+                            <span class="col-md-5">
+                                <span class="glyphicon glyphicon-pencil"></span>描述：{{ article.desc }}
+                            </span>
+                            <span class="col-md-3">
+                                <span class="glyphicon glyphicon-time"></span>时间：{{ article.date_publish | date:"SHORT_DATE_FORMAT" }}
+                            </span>
                         </a>
                     </li>
                     {% endfor %}
@@ -56,7 +66,7 @@
         </div>
 
         <div class="tab-pane fade" id="time">
-        {% regroup article_list by date_publish as list %}
+        {% regroup article_list by yeah_month as list %}
             {% for article in list %}
             <div class="panel">
                 <div class="panel-heading"><strong>{{ article.grouper }}</strong></div>
@@ -64,10 +74,15 @@
                     {% for article in article.list %}
                     <li class="col-md-12" style="list-style-type:none">
                         <a class="left" href="{{ article.get_absolute_url }}">
-                            <span class="col-md-5"><span class="glyphicon glyphicon-book"></span>
-                                《{{ article.title }}》</span><span class="col-md-4">
-                            <span class="glyphicon glyphicon-pencil"></span>描述：{{ article.desc }}</span>
-                            <span class="col-md-3"><span class="glyphicon glyphicon-time"></span>时间：{{ article.date_publish }}</span>
+                            <span class="col-md-4">
+                                <span class="glyphicon glyphicon-book"></span>《{{ article.title }}》
+                            </span>
+                            <span class="col-md-5">
+                                <span class="glyphicon glyphicon-pencil"></span>描述：{{ article.desc }}
+                            </span>
+                            <span class="col-md-3">
+                                <span class="glyphicon glyphicon-time"></span>时间：{{ article.date_publish | date:"SHORT_DATE_FORMAT" }}
+                            </span>
                         </a>
                     </li>
                     {% endfor %}

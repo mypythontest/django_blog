@@ -27,7 +27,6 @@
                     {% endfor %}
                     <span class="label label-info"><span class="glyphicon glyphicon-time"><b>时间:</b></span></span>
                     <span class="label label-info">{{ content.date_publish | date:"SHORT_DATE_FORMAT" }}</span>
-                    <span class="ds-thread-count label label-warning" data-thread-key="{{ content.id }}" data-count-type="comments"></span>
                 </div>
                 {% autoescape off %}
                 <div class="panel-body">{{ content.content | truncatewords_html:100 }}<a class="left" href="{% url 'article_detail' content.title %}">阅读全文</a>

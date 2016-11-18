@@ -7,3 +7,9 @@ right: 20px;
 width: 38px; /* Width of image */
 height: 38px; /* Height of image */
 }
+
+a.left:link {color: #808080}
+a.left:visited {color: #808080}
+a.left:hover {color: #000000}
+a.left:active {color: #808080}
+

@@ -56,17 +56,7 @@
         </ul>
         </div>
     </div>
-    <div class="panel">
-        <div class="panel-heading navbar-default"><strong>推荐文章</strong>
-        </div>
-        <div class="panel-body">
-            <ul>
-                {% for x in recommendation %}
-                    <li><a href="{{ x.get_absolute_url }}" class="left">{{ x.title }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
+
     <div class="panel ">
         <div class="panel-heading navbar-default"><strong>标签</strong>
         </div>
@@ -78,11 +68,15 @@
             </ul>
         </div>
     </div>
-    <div class="panel ">
-        <div class="panel-heading navbar-default"><strong>最近评论</strong>
+    <div class="panel">
+        <div class="panel-heading navbar-default"><strong>推荐文章</strong>
         </div>
         <div class="panel-body">
-            <div class="ds-recent-comments" data-num-items="7" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="70"></div>
+            <ul>
+                {% for x in recommendation %}
+                    <li><a href="{{ x.get_absolute_url }}" class="left">{{ x.title }}</a></li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div>

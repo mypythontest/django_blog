@@ -7,15 +7,12 @@ from django.views.generic import TemplateView
 
 class BaseListView(ListView):
     context_object_name = 'article_list'
+    paginate_by = 5
 
 
 class ArticleView(BaseListView):
     template_name = 'index.html'
-
-    def get_queryset(self):
-        queryset = Article.objects.all()
-        articles = self.paginate_queryset(queryset, page_size=4)[1]
-        return articles
+    model = Article
 
 
 class ArticleDetailView(DetailView):
@@ -53,8 +50,7 @@ class CategoryListView(BaseListView):
 
     def get_queryset(self):
         queryset = Article.objects.filter(category=self.kwargs['category'])
-        articles = self.paginate_queryset(queryset, page_size=4)[1]
-        return articles
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super(CategoryListView, self).get_context_data(**kwargs)
@@ -68,8 +64,7 @@ class TagListView(BaseListView):
 
     def get_queryset(self):
         queryset = Tag.objects.get(name=self.kwargs['tag']).articles.all()
-        articles = self.paginate_queryset(queryset, page_size=4)[1]
-        return articles
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super(TagListView, self).get_context_data(**kwargs)
@@ -83,8 +78,7 @@ class SearchView(BaseListView):
 
     def get_queryset(self):
         queryset = Article.objects.filter(title__icontains=self.request.GET.get('search'))
-        articles = self.paginate_queryset(queryset, page_size=4)[1]
-        return articles
+        return queryset
 
 
 class Me(TemplateView):
@@ -93,6 +87,7 @@ class Me(TemplateView):
 
 class ArchiveView(BaseListView):
     template_name = 'archive.html'
+    paginate_by = None
 
     def get_queryset(self):
         articles = Article.objects.all()
